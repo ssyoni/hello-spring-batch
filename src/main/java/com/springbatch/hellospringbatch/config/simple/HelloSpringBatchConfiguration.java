@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,12 +30,11 @@ public class HelloSpringBatchConfiguration {
                 .build();
     }
 
+    // 의존성 주입을 통한 JobParameter
+    private final SimpleJobTasklet simpleJobTasklet;
     @Bean
     public Step helloStep() {
         return stepBuilderFactory.get(STEP_1_NAME)
-                .tasklet((contribution, chunkContext) -> {
-                    log.info("This is HelloStep, {}", MESSAGE);
-                    return RepeatStatus.FINISHED;
-                }).build();
+                .tasklet(simpleJobTasklet).build();
     }
 }
