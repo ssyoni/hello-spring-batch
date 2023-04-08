@@ -1,0 +1,13 @@
+# Database setting
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/batch
+    username: root
+    password: 1234!
+
+spring.batch.job.names: ${job.name:EMPTY}
+
+#sql:
+#  init:
+#    mode: always
